@@ -89,9 +89,3 @@ assetic:
         bootstrap_js:
             inputs:
                 - 'assets/vendor/bootstrap/dist/js/bootstrap.js'
-        dashboard_css:
-            inputs:
-                - 'assets/css/dashboard.css'
-        blog_css:
-            inputs:
-                - 'assets/css/blog.css'
