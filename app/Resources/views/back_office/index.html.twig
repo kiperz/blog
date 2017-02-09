@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets '@back_office_index_css' output="/assets/css/back_office/index.css"%}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {% javascripts '@back_office_index_js' output="/assets/js/back_office/index.js"%}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endjavascripts %}
+{% endblock %}

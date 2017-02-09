@@ -68,3 +68,30 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    assets:
+        jquery_js:
+            inputs:
+                - 'assets/vendor/jquery/dist/jquery.js'
+        tether_css:
+            inputs:
+                - 'assets/vendor/tether/dist/css/tether.css'
+        tether_js:
+              inputs:
+                - 'assets/vendor/tether/dist/js/tether.js'
+        bootstrap_css:
+            inputs:
+                - 'assets/vendor/bootstrap/dist/css/bootstrap-reboot.css'
+                - 'assets/vendor/bootstrap/dist/css/bootstrap.css'
+        bootstrap_js:
+            inputs:
+                - 'assets/vendor/bootstrap/dist/js/bootstrap.js'
+        dashboard_css:
+            inputs:
+                - 'assets/css/dashboard.css'
+        blog_css:
+            inputs:
+                - 'assets/css/blog.css'

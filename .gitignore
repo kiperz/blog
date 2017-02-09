@@ -48,3 +48,9 @@
 */Entity/*~
 
 .idea/*
+
+/web/assets/vendor/*
+/web/css/*
+/web/js/*
+/web/assets/compiled/*
+/web/assetic/*
