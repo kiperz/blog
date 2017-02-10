@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="index")
+     * @Route("/", name="back_office_index")
      */
     public function indexAction(Request $request)
     {
@@ -33,8 +33,8 @@ class DefaultController extends Controller
         return $this->redirectToRoute('back_office_login');
     }
 
-    /*
-     * @Route("/login", name="login")
+    /**
+     * @Route("/login", name="back_office_login")
      */
     public function loginAction(Request $request)
     {

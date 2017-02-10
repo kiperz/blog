@@ -8,10 +8,18 @@
 
 namespace BackOfficeBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 
 class Login
 {
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Email()
+     */
     protected $login;
+    /**
+     * @Assert\NotBlank()
+     */
     protected $password;
     protected $rememberMe;
 
@@ -61,5 +69,12 @@ class Login
     public function setRememberMe($rememberMe)
     {
         $this->rememberMe = $rememberMe;
+    }
+    /**
+     * @Assert\IsFalse(message = "Can not login!")
+     */
+    public function authenticate()
+    {
+        return $this->login == 'kiper';
     }
 }
