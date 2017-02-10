@@ -45,7 +45,7 @@ class DefaultController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $login = $form->getData();
-            if($login->authenticate())
+            if($login->isAuthenticated())
             {
                 $request->getSession()->set('loggedIn', true);
                 return $this->redirectToRoute('back_office_index');

@@ -73,7 +73,7 @@ class Login
     /**
      * @Assert\IsFalse(message = "Can not login!")
      */
-    public function authenticate()
+    public function isAuthenticated()
     {
         return $this->login == 'kiper';
     }
