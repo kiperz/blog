@@ -3,4 +3,5 @@ front:
     type:     annotation
 back_office:
     resource: "@BackOfficeBundle/Controller/"
+    prefix:   /backoffice
     type:     annotation

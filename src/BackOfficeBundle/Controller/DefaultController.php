@@ -8,6 +8,7 @@
 
 namespace BackOfficeBundle\Controller;
 
+use BackOfficeBundle\Entity\Login;
 use BackOfficeBundle\Form\LoginForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -16,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/backoffice", name="back_office_index")
+     * @Route("/", name="index")
      */
     public function indexAction(Request $request)
     {
@@ -29,19 +30,27 @@ class DefaultController extends Controller
                 ]);
             }
         }
-        return $this->forward('BackOfficeBundle:Default:login');
+        return $this->redirectToRoute('back_office_login');
     }
 
     /*
-     * @Route("/backoffice/login", name="back_office_login")
+     * @Route("/login", name="login")
      */
     public function loginAction(Request $request)
     {
-        if($request->isMethod(Request::METHOD_POST)) {
+        $login = new Login();
+        $form = $this->createForm(LoginForm::class, $login);
 
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $login = $form->getData();
+            if($login->authenticate())
+            {
+                $request->getSession()->set('loggedIn', true);
+                return $this->redirectToRoute('back_office_index');
+            }
         }
-        $form = $this->createForm(LoginForm::class);
-
         return $this->render(':back_office:login.html.twig', [
             'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'form' => $form->createView()
