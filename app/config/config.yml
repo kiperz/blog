@@ -39,17 +39,17 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     form_themes:
-        - 'bootstrap_3_layout.html.twig'
+        - 'bootstrap_4_layout.html.twig'
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   pdo_mysql
+        driver:   "oci8"
         host:     "%database_host%"
         port:     "%database_port%"
         dbname:   "%database_name%"
         user:     "%database_user%"
         password: "%database_password%"
-        charset:  UTF8
+        charset:  "AL32UTF8"
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/../var/data/data.sqlite"
@@ -61,6 +61,56 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
+#        default_entity_manager: 'default'
+#        entity_managers:
+#            default:
+#                mappings:
+#                    gedmo_translatable:
+#                        type: annotation
+#                        prefix: Gedmo\Loggable\Entity
+#                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translatable/Entity"
+#                        alias: GedmoTranslatable # (optional) it will default to the name set for the mapping
+#                        is_bundle: false
+#                    gedmo_translator:
+#                        type: annotation
+#                        prefix: Gedmo\Timestampable\Entity
+#                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Translator/Entity"
+#                        alias: GedmoTranslator # (optional) it will default to the name set for the mapping
+#                        is_bundle: false
+#                    gedmo_loggable:
+#                        type: annotation
+#                        prefix: Gedmo\Versioned\Entity
+#                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Loggable/Entity"
+#                        alias: GedmoLoggable # (optional) it will default to the name set for the mappingmapping
+#                        is_bundle: false
+#                    gedmo_tree:
+#                        type: annotation
+#                        prefix: Gedmo\Blameable\Entity
+#                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+#                        alias: GedmoTree # (optional) it will default to the name set for the mapping
+#                        is_bundle: false
+
+stof_doctrine_extensions:
+    default_locale: en_US
+
+    # Only used if you activated the Uploadable extension
+    uploadable:
+        # Default file path: This is one of the three ways you can configure the path for the Uploadable extension
+        default_file_path:       "%kernel.root_dir%/../web/uploads"
+
+        # Mime type guesser class: Optional. By default, we provide an adapter for the one present in the HttpFoundation component of Symfony
+        mime_type_guesser_class: Stof\DoctrineExtensionsBundle\Uploadable\MimeTypeGuesserAdapter
+
+        # Default file info class implementing FileInfoInterface: Optional. By default we provide a class which is prepared to receive an UploadedFile instance.
+        default_file_info_class: Stof\DoctrineExtensionsBundle\Uploadable\UploadedFileInfo
+    orm:
+        default: ~
+
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/Migrations"
+    namespace: Application\Migrations
+    table_name: migration_versions
+    name: Application Migrations
 
 # Swiftmailer Configuration
 swiftmailer:
