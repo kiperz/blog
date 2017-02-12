@@ -4,10 +4,6 @@ parameters:
 #    parameter_name: value
 
 services:
-     back_office.form_login_authenticator:
-         class: BackOfficeBundle\Security\FormLoginAuthenticator
+     middleware.form_login_authenticator:
+         class: MiddlewareBundle\Security\FormLoginAuthenticator
          arguments: ["@router", "@security.password_encoder", "@form.factory"]
-     user.type:
-         class: BackOfficeBundle\Form\UserType
-         calls:
-             - [ setContainer, [ "@service_container" ] ]

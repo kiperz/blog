@@ -2,8 +2,8 @@
 
 namespace BackOfficeBundle\Controller;
 
-use BackOfficeBundle\Entity\LoginTry;
-use BackOfficeBundle\Form\LoginType;
+use MiddlewareBundle\Entity\LoginTry;
+use MiddlewareBundle\Form\LoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,15 +14,16 @@ use Symfony\Component\HttpFoundation\Request;
 class AuthController extends Controller
 {
     /**
-     * @Route("/login", name="backoffice_login")
+     * @Route("/login", name="auth_login")
      */
     public function loginAction(Request $request)
     {
         $login = new LoginTry();
         $form = $this->createForm(LoginType::class, $login,  [
-            'action' => $this->generateUrl('backoffice_login_check')
+            'action' => $this->generateUrl('auth_login_check')
         ]);
         $authenticationUtils = $this->get('security.authentication_utils');
+        $form->handleRequest($request);
         return $this->render('BackOfficeBundle:Auth:login.html.twig', [
             'base_dir'      => realpath($this->getParameter('kernel.root_dir').'/..').DIRECTORY_SEPARATOR,
             'form'          => $form->createView(),
@@ -32,7 +33,7 @@ class AuthController extends Controller
     }
 
     /**
-     * @Route("/login_check", name="backoffice_login_check")
+     * @Route("/login_check", name="auth_login_check")
      */
     public function loginCheckAction(Request $request)
     {
@@ -40,7 +41,7 @@ class AuthController extends Controller
     }
 
     /**
-     * @Route("/logout", name="backoffice_logout")
+     * @Route("/logout", name="auth_logout")
      */
     public function logoutAction(Request $request)
     {

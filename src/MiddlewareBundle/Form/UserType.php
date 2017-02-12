@@ -1,5 +1,5 @@
 <?php
-namespace BackOfficeBundle\Form;
+namespace MiddlewareBundle\Form;
 
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\Form\AbstractType;

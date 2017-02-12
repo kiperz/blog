@@ -2,8 +2,8 @@
 
 namespace BackOfficeBundle\Controller;
 
-use BackOfficeBundle\Entity\User;
-use BackOfficeBundle\Form\UserType;
+use MiddlewareBundle\Entity\User;
+use MiddlewareBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -25,7 +25,7 @@ class UserController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $users = $em->getRepository('BackOfficeBundle:User')->findAll();
+        $users = $em->getRepository('MiddlewareBundle:User')->findAll();
         return $this->render('BackOfficeBundle:User:index.html.twig', array(
             'users' => $users,
         ));

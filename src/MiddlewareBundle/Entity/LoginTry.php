@@ -1,5 +1,5 @@
 <?php
-namespace BackOfficeBundle\Entity;
+namespace MiddlewareBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

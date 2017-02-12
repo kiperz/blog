@@ -15,6 +15,8 @@ use BackOfficeBundle\Form\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+
 /**
  * BackOffice index controller.
  *
@@ -31,6 +33,6 @@ class IndexController extends Controller
         if ($securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->render('BackOfficeBundle::index.html.twig');
         }
-        return $this->redirectToRoute('backoffice_login');
+        throw new AuthenticationException("Unauthorized access!"); //return $this->redirectToRoute('auth_login');
     }
 }

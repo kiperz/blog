@@ -1,6 +1,6 @@
 <?php
 
-namespace BackOfficeBundle\Security;
+namespace MiddlewareBundle\Security;
 
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
@@ -15,8 +15,8 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Core\Security;
-use BackOfficeBundle\Entity\LoginTry;
-use BackOfficeBundle\Form\LoginType;
+use MiddlewareBundle\Entity\LoginTry;
+use MiddlewareBundle\Form\LoginType;
 
 class FormLoginAuthenticator extends AbstractFormLoginAuthenticator  implements ContainerAwareInterface
 {
@@ -40,7 +40,7 @@ class FormLoginAuthenticator extends AbstractFormLoginAuthenticator  implements 
         }
         $login = new LoginTry();
         $form = $this->formFactory->create(LoginType::class, $login,  [
-            'action' => $this->router->generate('backoffice_login_check')
+            'action' => $this->router->generate('auth_login_check')
         ]);
         $form->handleRequest($request);
         $login = $form->getData();
@@ -71,13 +71,14 @@ class FormLoginAuthenticator extends AbstractFormLoginAuthenticator  implements 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
-        $url = $this->router->generate('backoffice_login');
+        throw $exception;
+        $url = $this->router->generate('auth_login');
         return new RedirectResponse($url);
     }
 
     protected function getLoginUrl()
     {
-        return $this->router->generate('backoffice_login');
+        return $this->router->generate('auth_login');
     }
 
     protected function getDefaultSuccessRedirectUrl()
@@ -87,6 +88,6 @@ class FormLoginAuthenticator extends AbstractFormLoginAuthenticator  implements 
 
     public function supportsRememberMe()
     {
-        return false;
+        return true;
     }
 }

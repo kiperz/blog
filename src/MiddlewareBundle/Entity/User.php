@@ -1,7 +1,8 @@
 <?php
-namespace BackOfficeBundle\Entity;
+namespace MiddlewareBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -10,7 +11,7 @@ use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 /**
  * @ORM\Table(name="users")
- * @ORM\Entity(repositoryClass="BackOfficeBundle\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="MiddlewareBundle\Repository\UserRepository")
  * @Gedmo\Loggable
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
@@ -77,7 +78,11 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        return array($this->role);
+        $roles = explode(',', $this->getRole());
+        array_walk($roles, function(&$value){
+           $value = new Role(trim($value));
+        });
+        return $roles;
     }
 
     public function eraseCredentials()

@@ -1,5 +1,5 @@
 <?php
-namespace BackOfficeBundle\Repository;
+namespace MiddlewareBundle\Repository;
 
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Doctrine\ORM\EntityRepository;
