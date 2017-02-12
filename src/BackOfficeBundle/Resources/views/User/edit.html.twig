@@ -1,21 +1,17 @@
-{% extends 'backoffice/backoffice_base.html.twig' %}
+{% extends 'BackOfficeBundle::base.html.twig' %}
 
 {% block backoffice_body %}
     <h1>User edit</h1>
 
     {{ form_start(edit_form) }}
         {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" />
+        <button type="submit" class="btn btn-primary">Save</button>
     {{ form_end(edit_form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('backoffice_user_index') }}">Back to the list</a>
-        </li>
-        <li>
-            {{ form_start(delete_form) }}
-                <input type="submit" value="Delete">
-            {{ form_end(delete_form) }}
-        </li>
-    </ul>
+    {{ form_start(delete_form) }}
+    <div class="btn-group" role="group">
+        <a href="{{ path('backoffice_user_index', { 'id': user.id }) }}" class="btn btn-secondary">Back</a>
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </div>
+    {{ form_end(delete_form) }}
 {% endblock %}

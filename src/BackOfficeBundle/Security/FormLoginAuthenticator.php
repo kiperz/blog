@@ -35,12 +35,12 @@ class FormLoginAuthenticator extends AbstractFormLoginAuthenticator  implements 
 
     public function getCredentials(Request $request)
     {
-        if ($request->getPathInfo() != '/backoffice/login_check') {
+        if ($request->getPathInfo() != '/auth/login_check') {
             return;
         }
         $login = new LoginTry();
         $form = $this->formFactory->create(LoginType::class, $login,  [
-            'action' => $this->router->generate('back_office_login_check')
+            'action' => $this->router->generate('backoffice_login_check')
         ]);
         $form->handleRequest($request);
         $login = $form->getData();
@@ -64,25 +64,25 @@ class FormLoginAuthenticator extends AbstractFormLoginAuthenticator  implements 
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        $url = $this->router->generate('back_office_index');
+        $url = $this->router->generate('backoffice_index');
         return new RedirectResponse($url);
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
-        $url = $this->router->generate('back_office_login');
+        $url = $this->router->generate('backoffice_login');
         return new RedirectResponse($url);
     }
 
     protected function getLoginUrl()
     {
-        return $this->router->generate('back_office_login');
+        return $this->router->generate('backoffice_login');
     }
 
     protected function getDefaultSuccessRedirectUrl()
     {
-        return $this->router->generate('back_office_index');
+        return $this->router->generate('backoffice_index');
     }
 
     public function supportsRememberMe()

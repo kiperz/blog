@@ -1,16 +1,14 @@
-{% extends 'backoffice/backoffice_base.html.twig' %}
+{% extends 'BackOfficeBundle::base.html.twig' %}
 
 {% block backoffice_body %}
     <h1>User creation</h1>
 
     {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Create" />
+        <button type="submit" class="btn btn-primary">Create</button>
     {{ form_end(form) }}
 
-    <ul>
-        <li>
-            <a href="{{ path('backoffice_user_index') }}">Back to the list</a>
-        </li>
-    </ul>
+    <div class="btn-group" role="group">
+        <a href="{{ path('backoffice_user_index', { 'id': user.id }) }}" class="btn btn-secondary">Back</a>
+    </div>
 {% endblock %}

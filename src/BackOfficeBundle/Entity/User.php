@@ -5,14 +5,19 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Blameable\Traits\BlameableEntity;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 /**
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="BackOfficeBundle\Repository\UserRepository")
  * @Gedmo\Loggable
- * @Gedmo\SoftDeleteable(fieldName="isDeleted", timeAware=true)
  */
 class User implements UserInterface, \Serializable
 {
+    use BlameableEntity;
+    use SoftDeleteableEntity;
+    use TimestampableEntity;
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -22,6 +27,7 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
+     * @Gedmo\Versioned
      * @Assert\NotBlank()
      * @Assert\Email()
      */
@@ -29,6 +35,7 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Gedmo\Versioned
      * @Assert\NotBlank()
      */
     private $password;
@@ -36,7 +43,6 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\Column(name="is_active", type="boolean")
      * @Gedmo\Versioned
-     * @Assert\NotBlank()
      */
     private $isActive;
 
@@ -47,37 +53,10 @@ class User implements UserInterface, \Serializable
      */
     private $role;
 
-    /**
-     * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime")
-     */
-    private $updatedAt;
-
-    /**
-     * @var string $createdBy
-     *
-     * @Gedmo\Blameable(on="create")
-     * @ORM\Column
-     */
-    private $createdBy;
-
-    /**
-     * @var string $updatedBy
-     *
-     * @Gedmo\Blameable(on="update")
-     * @ORM\Column
-     */
-    private $updatedBy;
-
     public function __construct()
     {
         $this->isActive = true;
+        $this->role = 'USER_ROLE';
     }
 
     public function getUsername()
@@ -169,31 +148,7 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return User
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
+    
     /**
      * Set isActive
      *
@@ -231,101 +186,5 @@ class User implements UserInterface, \Serializable
     public function getRole()
     {
         return $this->role;
-    }
-
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return User
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * Set updatedAt
-     *
-     * @param \DateTime $updatedAt
-     *
-     * @return User
-     */
-    public function setUpdatedAt($updatedAt)
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedAt
-     *
-     * @return \DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
-     * Set createdBy
-     *
-     * @param string $createdBy
-     *
-     * @return User
-     */
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * Get createdBy
-     *
-     * @return string
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    /**
-     * Set updatedBy
-     *
-     * @param string $updatedBy
-     *
-     * @return User
-     */
-    public function setUpdatedBy($updatedBy)
-    {
-        $this->updatedBy = $updatedBy;
-
-        return $this;
-    }
-
-    /**
-     * Get updatedBy
-     *
-     * @return string
-     */
-    public function getUpdatedBy()
-    {
-        return $this->updatedBy;
     }
 }

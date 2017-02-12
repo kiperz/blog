@@ -1,15 +1,13 @@
-{% extends 'backoffice/backoffice_base.html.twig' %}
+{% extends 'BackOfficeBundle::base.html.twig' %}
 
 {% block backoffice_body %}
     <h1>Users list</h1>
 
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Username</th>
-                <th>Password</th>
-                <th>Email</th>
                 <th>Isactive</th>
                 <th>Role</th>
                 <th>Actions</th>
@@ -20,28 +18,22 @@
             <tr>
                 <td><a href="{{ path('backoffice_user_show', { 'id': user.id }) }}">{{ user.id }}</a></td>
                 <td>{{ user.username }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.email }}</td>
                 <td>{% if user.isActive %}Yes{% else %}No{% endif %}</td>
                 <td>{{ user.role }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('backoffice_user_show', { 'id': user.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('backoffice_user_edit', { 'id': user.id }) }}">edit</a>
-                        </li>
-                    </ul>
-                </td>
+            <td>
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <a href="{{ path('backoffice_user_show', { 'id': user.id }) }}" class="btn btn-primary">show</a>
+                    <a href="{{ path('backoffice_user_edit', { 'id': user.id }) }}" class="btn btn-secondary">edit</a>
+                </div>
+            </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('backoffice_user_new') }}">Create a new user</a>
-        </li>
-    </ul>
+    <div class="btn-group" role="group">
+        <a href="{{ path('backoffice_user_new') }}" class="btn btn-primary">create</a>
+    </div>
+
+
 {% endblock %}

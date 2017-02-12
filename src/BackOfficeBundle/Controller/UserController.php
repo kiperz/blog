@@ -40,16 +40,15 @@ class UserController extends Controller
     public function newAction(Request $request)
     {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, ['scenario' => UserType::SCENARIO_CREATE]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
-            $user->setRole('ROLE_USER');
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
-            $em->flush($user);
+            $em->flush();
 
             return $this->redirectToRoute('backoffice_user_show', array('id' => $user->getId()));
         }
@@ -67,7 +66,10 @@ class UserController extends Controller
      */
     public function showAction(User $user)
     {
-        $deleteForm = $this->createDeleteForm($user);
+        $deleteForm = $this->createForm(UserType::class, $user, [
+            'scenario' => UserType::SCENARIO_DELETE,
+            'action' => $this->generateUrl('backoffice_user_delete', array('id' => $user->getId()))
+        ]);
 
         return $this->render('BackOfficeBundle:User:show.html.twig', array(
             'user' => $user,
@@ -83,11 +85,17 @@ class UserController extends Controller
      */
     public function editAction(Request $request, User $user)
     {
-        $deleteForm = $this->createDeleteForm($user);
-        $editForm = $this->createForm(UserType::class, $user);
+        $deleteForm = $this->createForm(UserType::class, $user, [
+            'scenario' => UserType::SCENARIO_DELETE,
+            'action' => $this->generateUrl('backoffice_user_delete', array('id' => $user->getId()))
+        ]);
+        $editForm = $this->createForm(UserType::class, $user, ['scenario' => UserType::SCENARIO_UPDATE]);
         $editForm->handleRequest($request);
-        $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
-        $user->setPassword($password);
+        if($user->getPassword())
+        {
+            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
+            $user->setPassword($password);
+        }
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
@@ -109,31 +117,18 @@ class UserController extends Controller
      */
     public function deleteAction(Request $request, User $user)
     {
-        $form = $this->createDeleteForm($user);
+        $form = $this->createForm(UserType::class, $user, [
+            'scenario' => UserType::SCENARIO_DELETE,
+            'action' => $this->generateUrl('backoffice_user_delete', array('id' => $user->getId()))
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($user);
-            $em->flush($user);
+            $em->flush();
         }
 
         return $this->redirectToRoute('backoffice_user_index');
-    }
-
-    /**
-     * Creates a form to delete a user entity.
-     *
-     * @param User $user The user entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm(User $user)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('backoffice_user_delete', array('id' => $user->getId())))
-            ->setMethod('DELETE')
-            ->getForm()
-        ;
     }
 }

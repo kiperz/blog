@@ -16,11 +16,11 @@ security:
                 authenticators:
                     - back_office.form_login_authenticator
             logout:
-                path: /backoffice/logout
-                target: /backoffice/login
+                path: /auth/logout
+                target: /auth/login
     access_control:
         # require ROLE_ADMIN for /admin*
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/auth/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/backoffice, roles: ROLE_ADMIN }
+        - { path: ^/backoffice/, roles: ROLE_ADMIN }
 
