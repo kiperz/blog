@@ -12,6 +12,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="BackOfficeBundle\Repository\UserRepository")
  * @Gedmo\Loggable
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
 class User implements UserInterface, \Serializable
 {
@@ -148,7 +149,7 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
-    
+
     /**
      * Set isActive
      *

@@ -22,5 +22,5 @@ security:
         # require ROLE_ADMIN for /admin*
         - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/auth/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/backoffice/, roles: ROLE_ADMIN }
+        - { path: ^/backoffice*, roles: ROLE_ADMIN }
 
